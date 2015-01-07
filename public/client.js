@@ -1,6 +1,7 @@
 (function(){
 
     var URL_DATA = '/data';
+    var URL_COMPLETION = '/completion';
     var TIMEOUT = 5000;
 
     var tablePersonLine = _.template('<tr> <td><%= person %></td> <td ><%= sandwich %></td>     </tr>');
@@ -8,7 +9,7 @@
 
     function updateTable(){
         $.getJSON(URL_DATA, function( data ){
-            var wichs = _.zipObject(data.sandwiches);
+            var wichs = _.zipObject(data.choices);
 
             $('#tableSandwichesList tr').remove();
 
@@ -31,11 +32,7 @@
         });
     }
 
-    $(document).ready(function(){
-
-        updateTable();
-        setInterval(updateTable, TIMEOUT);
-
+    function activateSubmit(){
         $('#addSandwichForm').on('submit', function(e){
             e.preventDefault();
             console.log('submit');
@@ -47,14 +44,51 @@
                 url: URL_DATA,
                 contentType : 'application/json',
                 dataType: 'json',
-                data: JSON.stringify({ 'sandwiches': [[name, swich]] }),
+                data: JSON.stringify({ 'choices': [[name, swich]] }),
                 success: function( data ){
-                    console.log('submit end');
                     console.log(data);
                     updateTable();
                 },
             });
         });
+    }
 
+    function cleanName(name){
+        return name.toLowerCase().replace(/[^a-z]/g, '');
+    }
+
+    function activateAutocomplete(){ 
+        $.getJSON(URL_COMPLETION, function(data){
+
+            function query(list){ return function(q, cb){
+                var cleanQ = cleanName(q);
+                cb(_(list)
+                    .filter(function(elem){
+                        return _.contains(cleanName(elem), cleanQ); })
+                    .map(function(e){ return {value: e}; })
+                    .valueOf());
+            }}
+
+            $('#inputName').typeahead(
+                { minLength: 1, highlight: true },
+                { source: query(data.names) }
+            );
+            $('#inputSandwich').typeahead(
+                { minLength: 3, highlight: true },
+                { source: query(data.dishes) }
+            );
+
+        });
+
+    }
+
+    $(document).ready(function(){
+
+        updateTable();
+        setInterval(updateTable, TIMEOUT);
+
+        activateAutocomplete();
+
+        activateSubmit();
     });
 })();

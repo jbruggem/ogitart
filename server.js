@@ -4,11 +4,7 @@ var path = require('path');
 var Store = require('jfs');
 var _ = require('lodash');
 
-var dataStore;
-
-var PORT = 8547;
-
-var DATA_FOLDER = path.join(__dirname, './data');
+var config = require('./config')
 
 var INDEX = path.join(__dirname, 'public/index.html');
 
@@ -19,16 +15,9 @@ var RESOURCES = _.map([
     './node_modules/lodash/dist/lodash.min.js',
     './node_modules/bootstrap/dist/js/bootstrap.min.js',
     './node_modules/jquery/dist/jquery.min.js',
+    './node_modules/typeahead.js/dist/typeahead.jquery.min.js',
     './public/client.js',
 ], _.compose(_.partial(path.join, __dirname), _.identity)); 
-
-
-var INIT_DATA_FILE = {
-    sandwiches: []
-};
-
-
-
 
 function main(port){
     var app = express();
@@ -50,6 +39,7 @@ function sendFileError(res){ return function(err){
     }
 };}
 
+
 function routeIndex(app){
     app.get('/', function (req, res) {
       res.sendFile( INDEX, {}, sendFileError(res));
@@ -66,60 +56,101 @@ function routeRessources(app){
 
 function currentDataFile(){
     var d = new Date();
-    var f = d.getFullYear() + "/" + d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() 
-            + '.json';
-    return path.join(DATA_FOLDER, f);
+    var f = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+    return f;
 }
 
-function getCurrentDb(){
-    var dbPath = currentDataFile();
-    return new Store(dbPath);
+function nth(list, index){
+    return _.map(list, function(e){ return e[index]; });
 }
 
-var sandwichDbKey = 'sandwiches';
+var db = new (function Database(){
+    var dbId = null;
+    var store = null;
 
-function setWichs(store, data, cb){
-    store.save(sandwichDbKey, data, cb);
-}
+    function calculateDbId(){ return new Date().getFullYear(); }
+    
+    function getStore(){
+        var newDbId = calculateDbId();
+        if(null === store || dbId !== newDbId){
+            dbId = newDbId;
+            store = new Store(path.join(config.dataFolder, ""+dbId));
+        }
+        return store;
+    }
 
-function getWichs(store, cb){
-    store.all(function(err, data){
-        if(!err && !data[sandwichDbKey]) data[sandwichDbKey] = [];
-        cb(err, data[sandwichDbKey]);
-    });
-}
+    return {
+        getUniqueValuesFromScratch: function(cb){
+            var names = [];
+            var dishes = [];
+            getStore().all(function(err, days){
+                _(days).keys().forEach(function(day){
+                    names = _.union(names, nth(days[day].choices, 0));
+                    dishes = _.union(dishes, nth(days[day].choices, 1));
+                });
+
+                cb({ names: names, dishes: dishes });
+            });
+
+        },
+
+        getTodaysData: function(cb){
+            var today = currentDataFile();
+            getStore().all(function(err, days){
+                if( !_.has(days, today) ){
+                    days[today] = { choices: [] };
+                }
+                cb(err, days[today]);
+            });
+        },
+
+        setTodaysData: function(data, cb){
+            var today = currentDataFile();
+            store.save(today, data, cb);
+        }
+    };
+})();
 
 function error(res, err){
     res.status(500).end();
     console.error("Request failed: "+err+".");
 }
 
-
-
 function routeData(app){
-    var sandwichRestKey = 'sandwiches';
+    var completion = {}; 
 
-    app.get('/data', function (req, res) {
-        getWichs(getCurrentDb(), function(err, wichs){
+    db.getUniqueValuesFromScratch(function(data){
+        completion = data;
+    });
+
+    app.get('/completion', function (req, res){
+        res.json(completion);
+    });
+
+    app.get('/data', function (req, res){
+        db.getTodaysData(function(err, data){
             if(err) return error(res, err);
 
-            var obj = {};
-            obj[sandwichRestKey] = wichs;
-            res.json(obj); 
+            res.json(data); 
         });
     });
 
-    app.post('/data', function (req, res) { 
-        getWichs(getCurrentDb(), function(err, oldWichs){
+    app.post('/data', function (req, res){ 
+        db.getTodaysData(function(err, oldData){
             if(err) return error(res, err);
+            var choices = req.body.choices;
+            console.log("Received:", choices);
 
-            console.log("Received:", req.body[sandwichRestKey]);
-            var newWichs = _.union(oldWichs, req.body[sandwichRestKey]);
-            newWichs = _.uniq(newWichs, function(w){ return w[0]; });
+            completion.names = _.union( completion.names,  nth(choices, 0) );
+            completion.dishes = _.union( completion.dishes,  nth(choices, 1) );
 
-            console.log("current collection", newWichs);
+            var newData = {};
+            newData.choices = _.union(oldData.choices, choices);
+            newData.choices = _.uniq(newData.choices, function(w){ return w[0]; });
 
-            setWichs(getCurrentDb(), newWichs, function(err, data){
+            console.log("current todayData", newData);
+
+            db.setTodaysData(newData, function(err){
                 if(err) return error(res, err);
                 res.json({ result: true }); 
             });
@@ -128,4 +159,4 @@ function routeData(app){
 }
 
 
-main(PORT);
+main(config.port);
