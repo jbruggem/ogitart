@@ -1,0 +1,20 @@
+{
+  "name": "sandwich",
+  "version": "0.0.1",
+  "description": "Commande de sandwichs",
+  "main": "server.js",
+  "repository": "https://github.com/jbruggem/ogitart.git",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jehan Bruggeman <jbruggem@symzo.be>",
+  "license": "Apache Licence",
+  "dependencies": {
+    "body-parser": "^1.10.1",
+    "bootstrap": "^3.3.1",
+    "express": "^4.10.7",
+    "jfs": "^0.2.5",
+    "jquery": "^2.1.3",
+    "lodash": "^2.4.1"
+  }
+}
