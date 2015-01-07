@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sandwichs</title>
+    <title>Ogitart</title>
 
-    <!-- Bootstrap -->
     <link href="./bootstrap.min.css" rel="stylesheet">
     <link href="./bootstrap-theme.min.css" rel="stylesheet">
 
@@ -18,6 +17,18 @@
         text-align: center;
         border-top: 1px solid #E5E5E5;
       }
+
+      .tt-dropdown-menu{
+        background: white;
+        width: 100%;
+        border: 1px solid #E5E5E5;
+      }
+
+      .tt-suggestion {
+        padding: 0.5em;
+        border-bottom: 1px solid #E5E5E5;
+        cursor: pointer;
+      }
     </style>
 
   </head>
@@ -26,23 +37,23 @@
 
     <div class="container sandwich">           
         <div class="page-header">
-          <h1>Sandwichs</h1>
+          <h1>Meal order</h1>
         </div>
 
-        <!-- add a sandwich -->
+        <!-- add a delivery element -->
       <div class="row">
         <div class="col-md-4">
           <form class="form-horizontal small" id="addSandwichForm">
             <div class="form-group">
               <label class="col-sm-2 control-label" for="inputName">Name</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputName" placeholder="Enter name">
+                <input type="text" class="form-control" id="inputName" placeholder="Enter your name">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label" for="inputSandwich">Sandwich</label>
+              <label class="col-sm-2 control-label" for="inputSandwich">Dish</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputSandwich" placeholder="Enter sandwich">
+                <input type="text" class="form-control" id="inputSandwich" placeholder="Enter your choice of dish">
               </div>
             </div>
 
@@ -55,7 +66,7 @@
         <div class="col-md-8">
             <table class="table table-striped">
               <thead>
-                <tr> <th>Name</th> <th>Sandwich</th> </tr>
+                <tr> <th>Name</th> <th>Dish</th> </tr>
               </thead>
               <tbody id="tableSandwichesList">
               </tbody>
@@ -65,7 +76,7 @@
 
             <table class="table table-striped">
               <thead>
-                <tr> <th>Sandwich</th> <th>Count</th>  </tr>
+                <tr> <th>Dish</th> <th>Count</th>  </tr>
               </thead>
               <tbody id="tableSandwichesCount">
               </tbody>
@@ -78,19 +89,16 @@
       <div class="row">
         <div class="col-md-12">
           <footer class="footer">
-            <p><a>project on Github</a></p>
+            <p><a href="https://github.com/jbruggem/ogitart">contribute to project on Github</a></p>
           </footer>
       </div>
 
     </div> <!-- /container -->
 
-
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="./jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="./lodash.min.js"></script>
     <script src="./bootstrap.min.js"></script>
+    <script src="./typeahead.jquery.min.js"></script>
 
     <script src="./client.js"></script>
 
