@@ -2,13 +2,6 @@
     // Based on JSHint Default Configuration File (as on JSHint website)
     // See http://jshint.com/docs/ for more details
 
-    // compare jshints:
-    // strip comments with: http://trinithis.awardspace.com/commentStripper/stripper.html
-    //
-    // lodash = require('lodash'); fs = require('fs');                          // load node shell
-    // data = JSON.parse(fs.readFileSync('stripped'));                          // load files
-    // fs.writeFileSync('comparable',util.inspect(lodash.pairs(data).sort()));  // order and write
-
     "maxerr" : 100, // {int} Maximum error before stopping
 
     // Enforcing
