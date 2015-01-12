@@ -29,6 +29,16 @@
         border-bottom: 1px solid #E5E5E5;
         cursor: pointer;
       }
+
+      #close-for-today{
+        position:absolute; 
+        right:0;
+        top: 0.5em;
+      }
+
+      .page-header{
+        position:relative;
+      }
     </style>
 
   </head>
@@ -38,6 +48,7 @@
     <div class="container sandwich">           
         <div class="page-header">
           <h1>Meal order</h1>
+          <button type="button" id="close-for-today" class="btn btn-danger">Close for today</button>
         </div>
 
         <!-- add a delivery element -->
@@ -94,6 +105,7 @@
       </div>
 
     </div> <!-- /container -->
+
 
     <script src="./jquery.min.js"></script>
     <script src="./lodash.min.js"></script>

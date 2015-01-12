@@ -1,15 +1,31 @@
 (function(){
 
     var URL_DATA = '/data';
+    var URL_STATUS = '/status';
     var URL_COMPLETION = '/completion';
     var TIMEOUT = 5000;
 
     var tablePersonLine = _.template('<tr> <td><%= person %></td> <td ><%= sandwich %></td>     </tr>');
     var tableCountLine = _.template('<tr> <td><%= sandwich %></td> <td ><%= count %></td>     </tr>');
 
-    function updateTable(){
+    function disableForms(){ 
+        $('input:not([disabled="disabled"]), button:not([disabled="disabled"])').attr('disabled', 'disabled'); 
+        $('#close-for-today').text("Closed");
+    }
+    function enableForms(){ 
+        $('input[disabled="disabled"], button[disabled="disabled"]').attr('disabled', false);
+        $('#close-for-today').text("Close for today");
+    }
+
+    function updateUi(){
         $.getJSON(URL_DATA, function( data ){
             var wichs = _.zipObject(data.choices);
+
+            if(data.closed){
+                disableForms();
+            }else{
+                enableForms();
+            }
 
             $('#tableSandwichesList tr').remove();
 
@@ -47,7 +63,7 @@
                 data: JSON.stringify({ 'choices': [[name, swich]] }),
                 success: function( data ){
                     console.log(data);
-                    updateTable();
+                    updateUi();
                 },
             });
         });
@@ -79,16 +95,36 @@
             );
 
         });
+    }
 
+    function activateCloseForToday(){
+        $('#close-for-today').click(function(){
+            var result = window.confirm("Are you sure? This cannot be undone.");
+            if(result){
+                $.ajax({
+                    type: "POST",
+                    url: URL_STATUS,
+                    contentType : 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify({ closed: true }),
+                    success: function( data ){
+                        console.log(data);
+                        updateUi();
+                    },
+                });
+            }
+        });
     }
 
     $(document).ready(function(){
 
-        updateTable();
-        setInterval(updateTable, TIMEOUT);
+        updateUi();
+        setInterval(updateUi, TIMEOUT);
 
         activateAutocomplete();
 
         activateSubmit();
+
+        activateCloseForToday();
     });
 })();

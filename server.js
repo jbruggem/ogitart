@@ -135,11 +135,34 @@ function routeData(app){
         });
     });
 
+    app.post('/status', function (req, res){
+        db.getTodaysData(function(err, data){
+            if(err) return error(res, err);
+
+            var closed = req.body.closed;
+
+            if(closed) console.log("Closing for today...");
+            else console.log("Opening for today...");
+
+            data.closed = closed;
+
+            db.setTodaysData(data, function(err){
+                if(err) return error(res, err);
+                res.json({ result: true }); 
+            });
+        });
+    });
+
     app.post('/data', function (req, res){ 
         db.getTodaysData(function(err, oldData){
             if(err) return error(res, err);
             var choices = req.body.choices;
             console.log("Received:", choices);
+
+            if(oldData.closed){
+                console.log("Not saving. Closed for today.");
+                return res.json({ result: false, msg: 'Closed for today.'});
+            }
 
             completion.names = _.union( completion.names,  nth(choices, 0) );
             completion.dishes = _.union( completion.dishes,  nth(choices, 1) );
