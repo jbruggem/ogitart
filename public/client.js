@@ -90,7 +90,7 @@
                 { source: query(data.names) }
             );
             $('#inputSandwich').typeahead(
-                { minLength: 3, highlight: true },
+                { minLength: 1, highlight: true },
                 { source: query(data.dishes) }
             );
 
