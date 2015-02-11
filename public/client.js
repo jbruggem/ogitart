@@ -27,6 +27,9 @@
                 enableForms();
             }
 
+            if( !_(wichs).keys().isEmpty() )
+                $('table').removeClass('empty');
+
             $('#tableSandwichesList tr').remove();
 
             _(wichs).keys().forEach(function(name){

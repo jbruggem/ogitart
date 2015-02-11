@@ -12,7 +12,7 @@
     <style type="text/css">
       .sandwich footer.footer{
         padding: 40px 0 40px 0;
-        margin: 100px 0 0 0;
+        margin: 60px 0 0 0;
         color: #777;
         text-align: center;
         border-top: 1px solid #E5E5E5;
@@ -51,7 +51,15 @@
       .table-title {
         border-bottom:1px solid #E5E5E5;
         padding: 0em 0 0.3em 0;
-        margin: 1em 0 2em 0;
+        margin: 0.5em 0 1em 0;
+      }
+
+      table.empty {
+        visibility: hidden;
+      }
+
+      .table {
+        margin-bottom: 8em;
       }
 
       .container.for-print .table-to-print, 
@@ -121,7 +129,7 @@
         <div class="col-md-8">
             <section class="table-to-print">
               <h2 class="table-title">By user <a class="print-button btn btn-sm btn-default">print</a></h2>
-              <table class="table table-striped">
+              <table class="table table-striped empty">
                 <thead>
                   <tr> <th>Name</th> <th>Dish</th> </tr>
                 </thead>
@@ -132,7 +140,7 @@
 
             <section class="table-to-print">
               <h2 class="table-title">By dish <a class="print-button btn btn-sm btn-default">print</a></h2>
-              <table class="table table-striped">
+              <table class="table table-striped empty">
                 <thead>
                   <tr> <th>Dish</th> <th>Count</th>  </tr>
                 </thead>
