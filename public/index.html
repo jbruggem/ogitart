@@ -34,15 +34,51 @@
         background: #F2F2F2;
       }
 
-      #close-for-today{
+      #close-for-today {
         position:absolute; 
         right:0;
         top: 0.5em;
       }
 
-      .page-header{
+      .page-header {
         position:relative;
       }
+
+      a.print-button {
+        float: right;
+      }
+
+      .table-title {
+        border-bottom:1px solid #E5E5E5;
+        padding: 0em 0 0.3em 0;
+        margin: 1em 0 2em 0;
+      }
+
+      .container.for-print .table-to-print, 
+      .container.for-print .page-header, 
+      .container.for-print .footer, 
+      .container.for-print .controls {
+        display: none;
+      }
+
+      .container.for-print .table-to-print.show {
+        display: block !important;
+      }
+
+      @media print {
+        .btn {
+          display: none;
+        }
+
+        * {
+          font-size: 12px;
+        }
+
+        h2 {
+          display:none;
+        }
+      }
+
     </style>
 
   </head>
@@ -57,7 +93,7 @@
 
         <!-- add a delivery element -->
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 controls">
           <form class="form-horizontal small" id="addSandwichForm">
             <div class="form-group">
               <label class="col-sm-2 control-label" for="inputName">Name</label>
@@ -83,25 +119,27 @@
 
         <!-- list of sandwiches -->
         <div class="col-md-8">
-            <h2>By user</h2>
-            <table class="table table-striped">
-              <thead>
-                <tr> <th>Name</th> <th>Dish</th> </tr>
-              </thead>
-              <tbody id="tableSandwichesList">
-              </tbody>
-            </table>
+            <section class="table-to-print">
+              <h2 class="table-title">By user <a class="print-button btn btn-sm btn-default">print</a></h2>
+              <table class="table table-striped">
+                <thead>
+                  <tr> <th>Name</th> <th>Dish</th> </tr>
+                </thead>
+                <tbody id="tableSandwichesList">
+                </tbody>
+              </table>
+            </section>
 
-            <hr />
-
-            <h2>By dish</h2>
-            <table class="table table-striped">
-              <thead>
-                <tr> <th>Dish</th> <th>Count</th>  </tr>
-              </thead>
-              <tbody id="tableSandwichesCount">
-              </tbody>
-            </table>
+            <section class="table-to-print">
+              <h2 class="table-title">By dish <a class="print-button btn btn-sm btn-default">print</a></h2>
+              <table class="table table-striped">
+                <thead>
+                  <tr> <th>Dish</th> <th>Count</th>  </tr>
+                </thead>
+                <tbody id="tableSandwichesCount">
+                </tbody>
+              </table>
+            </section>
 
         </div>
       </div>  

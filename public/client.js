@@ -116,6 +116,23 @@
         });
     }
 
+    function activatePrint(){
+        var state = true;
+        var text = $('.print-button').first().text();
+        $('.print-button').click(function(){
+            if(state){
+                $(this).parents('.table-to-print').addClass('show');
+                $('.container').addClass('for-print');
+                $('.print-button').text('exit print mode');
+            }else{
+                $(this).parents('.table-to-print').removeClass('show');
+                $('.container').removeClass('for-print');
+                $('.print-button').text(text);
+            }
+            state = !state;
+        });
+    }
+
     $(document).ready(function(){
 
         updateUi();
@@ -126,5 +143,7 @@
         activateSubmit();
 
         activateCloseForToday();
+
+        activatePrint();
     });
 })();
