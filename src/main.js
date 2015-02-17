@@ -21,11 +21,8 @@ function main(config){
     });
 }
 
-
-if (require.main === module) {
-    main(config);
-}
-
 module.exports = {
-    main: main,
+    main: function(arg){
+        main(arg ? arg : require('./config'));
+    },
 }

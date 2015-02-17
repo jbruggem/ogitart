@@ -41,10 +41,10 @@
 
             $('#tableSandwichesCount tr').remove();
 
-            _(wichs).values().countBy().pairs().forEach(function(count){
+            _(wichs).values().countBy(ogitartUtils.comparer).pairs().forEach(function(count){
                 $('#tableSandwichesCount').append(tableCountLine({
                     count: count[1],
-                    sandwich: count[0],
+                    sandwich: _(wichs).values().filter(function(v){ return count[0] === ogitartUtils.comparer(v); }).join(', '),
                 }));
             }).value();
 
@@ -73,7 +73,7 @@
     }
 
     function cleanName(name){
-        return name.toLowerCase().replace(/[^a-z]/g, '');
+        return ogitartUtils.comparer(name); //.toLowerCase().replace(/[^a-z]/g, '');
     }
 
     function activateAutocomplete(){ 

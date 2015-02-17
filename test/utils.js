@@ -10,7 +10,7 @@ describe('utils', function(){
 
     describe('comparer', function(){
         it('should prepare string for compare', function(){
-            "abdc efg f ft trudd v".should.eql(utils.comparer("   --$$abDc Efg- f ; + fT trUdd v  "));
+            "abdec efg f fat trudd v 12".should.eql(utils.comparer("   --$$abDéc Efg- f ; + fàT trUdd v 12 "));
         });
     });
 
@@ -22,7 +22,7 @@ describe('utils', function(){
 
     describe('normalizeUserName', function(){
         it('should normalize', function(){
-            "Ab C T'est Plo-up".should.eql(utils.normalizeUserName("-Ab  c; t'EsT plo-uP"));
+            "Ab C; T'est Plo-up".should.eql(utils.normalizeUserName("-Ab  c; t'EsT plo-uP"));
         });
         it('should keep all-caps', function(){
             "ABC".should.eql(utils.normalizeUserName("ABC"));

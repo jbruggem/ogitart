@@ -1,4 +1,7 @@
-var _ = require('lodash');
+if('undefined' === typeof window )
+    var _ = require('lodash');
+
+var removeDiacritics = require('diacritics').remove;
 
 var utils = {
     currentDataFile: function currentDataFile(){
@@ -16,21 +19,21 @@ var utils = {
     },
 
     comparer: function(s){ 
-        var s = s.toLowerCase().replace(/[^a-zA-Z]/g, ' ').replace(/\s+/g,' ').trim();
+        var s = removeDiacritics(s.toLowerCase()).replace(/[-:;,./+='"|&!%{})(_~'$]/g, '').replace(/\s+/g,' ').trim();
         return s;
-    },
+    }, 
 
     normalizeUserName: function(name){
         var doCapitalize = false;
         if(name.toUpperCase() !== name)
             doCapitalize = true;
-        name = name.replace(/[^-a-zA-Z']/g, ' ').replace(/(^|\s)-/g,' ').replace(/\s+/g,' ').trim();
+        name = name.replace(/(^|\s)-/g,' ').replace(/\s+/g,' ').trim();
         if(doCapitalize) name = utils.capitalize(name);
         return name;
     },
 
     normalizeDishName: function(dish){
-        return utils.capitalize(dish.replace(/[^-+;,a-zA-Z']/g, ' ').replace(/\s+/g,' ').trim());
+        return utils.capitalize(dish.replace(/\s+/g,' ').trim());
     },
 
     normalizeUserNames: function(choices){
