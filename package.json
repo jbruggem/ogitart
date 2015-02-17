@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./node_modules/.bin/lodash modern exports=global -o build/lodash.js",
+    "mon": "nodemon ogitart.js",
     "start": "forever -m5 start ./ogitart.js",
     "restart": "forever restart ./ogitart.js"
   },
