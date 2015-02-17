@@ -5,9 +5,10 @@
   "main": "server.js",
   "repository": "https://github.com/jbruggem/ogitart.git",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "build": "./node_modules/.bin/lodash modern exports=global -o build/lodash.js",
     "mon": "nodemon ogitart.js",
+    "lint": "jshint src/",
     "start": "forever -m5 start ./ogitart.js",
     "restart": "forever restart ./ogitart.js"
   },
@@ -24,8 +25,10 @@
   },
   "devDependencies": {
     "forever": "^0.13.0",
-    "jshint": "^2.5.11",
+    "jshint": "^2.6.0",
     "lodash-cli": "^3.2.0",
-    "nodemon": "^1.2.1"
+    "mocha": "^2.1.0",
+    "nodemon": "^1.2.1",
+    "should": "^5.0.0"
   }
 }
