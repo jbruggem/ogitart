@@ -64,6 +64,35 @@ function nth(list, index){
     return _.map(list, function(e){ return e[index]; });
 }
 
+function lower(s){ return s.toLowerCase(); }
+
+function normalizeUserName(name){
+    if(name.toUpperCase() !== name)
+        name - _.camelCase(name);
+    return name.trim().replace(/[^a-zA-Z'-]/, ' ').replace(/\s+/,' ');
+}
+
+function normalizeDishName(dish){
+    return _.camelCase(dish.trim().replace(/[^a-zA-Z'-]/, ' ').replace(/\s+/,' '));
+}
+
+function normalizeUserNames(choices){
+    return _.map(nth(choices, 0), normalizeUserName);
+}
+
+function normalizeDishNames(choices){
+    return _.map(nth(choices, 1), normalizeDishName);
+}
+
+function normalizeChoices(choices){
+    return _.map(choices, function(choice){
+        return [
+            normalizeUserName(choice[0]),
+            normalizeDishName(choice[1]),
+        ];
+    });
+}
+
 var db = new (function Database(){
     var dbId = null;
     var store = null;
@@ -79,14 +108,18 @@ var db = new (function Database(){
         return store;
     }
 
+
+
     return {
         getUniqueValuesFromScratch: function(cb){
             var names = [];
             var dishes = [];
             getStore().all(function(err, days){
                 _(days).keys().forEach(function(day){
-                    names = _.union(names, nth(days[day].choices, 0));
-                    dishes = _.union(dishes, nth(days[day].choices, 1));
+                    // names get lowercased for compare because normalization
+                    // ignore full-upercase strings (they are considered monograms/trigrams)
+                    names = _.uniq(_.union(names, normalizeUserNames(days[day].choices)), lower );
+                    dishes = _.union(dishes, normalizeDishNames(days[day].choices));
                 });
 
                 cb({ names: names, dishes: dishes });
@@ -100,6 +133,7 @@ var db = new (function Database(){
                 if( !_.has(days, today) ){
                     days[today] = { choices: [] };
                 }
+                days[today].choices = _.map(days[today].choices, normalizeChoices);
                 cb(err, days[today]);
             });
         },
@@ -119,9 +153,14 @@ function error(res, err){
 function routeData(app){
     var completion = {}; 
 
-    db.getUniqueValuesFromScratch(function(data){
-        completion = data;
-    });
+    function updateCompletion(){
+        db.getUniqueValuesFromScratch(function(data){
+            completion = data;
+        });
+    }
+
+    // do it at start up.
+    updateCompletion();
 
     app.get('/completion', function (req, res){
         res.json(completion);
@@ -164,8 +203,8 @@ function routeData(app){
                 return res.json({ result: false, msg: 'Closed for today.'});
             }
 
-            completion.names = _.union( completion.names,  nth(choices, 0) );
-            completion.dishes = _.union( completion.dishes,  nth(choices, 1) );
+            completion.names = _.union(completion.names, nth(choices, 0));
+            completion.dishes = _.union(completion.dishes, nth(choices, 1));
 
             var newData = {};
             newData.choices = _.union(oldData.choices, choices);
@@ -176,6 +215,7 @@ function routeData(app){
             db.setTodaysData(newData, function(err){
                 if(err) return error(res, err);
                 res.json({ result: true }); 
+                updateCompletion();
             });
         });
     });
