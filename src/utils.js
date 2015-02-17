@@ -15,7 +15,10 @@ var utils = {
     },
 
     capitalize: function(s){ 
-        return _.map(s.toLowerCase().split(' '), _.capitalize).join(' '); 
+        return _.map(s.toLowerCase().split(' '), function(w){
+            if(w.length < 2 ) return w;
+            return _.capitalize(w);
+        }).join(' '); 
     },
 
     comparer: function(s){ 

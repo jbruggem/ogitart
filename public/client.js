@@ -44,7 +44,7 @@
             _(wichs).values().countBy(ogitartUtils.comparer).pairs().forEach(function(count){
                 $('#tableSandwichesCount').append(tableCountLine({
                     count: count[1],
-                    sandwich: _(wichs).values().filter(function(v){ return count[0] === ogitartUtils.comparer(v); }).join(', '),
+                    sandwich: _(wichs).values().filter(function(v){ return count[0] === ogitartUtils.comparer(v); }).uniq().join(', '),
                 }));
             }).value();
 

@@ -95,7 +95,7 @@ function routeData(app, db){
 
             var newData = {};
             newData.choices = _.union(oldData.choices, choices);
-            newData.choices = _.uniq(newData.choices, function(w){ return utils.comparer(w[0]); });
+            newData.choices = _(newData.choices).reverse().uniq(function(w){ return utils.comparer(w[0]); }).value();
 
             console.log("current todayData", newData);
 
