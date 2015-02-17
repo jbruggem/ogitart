@@ -37,7 +37,7 @@
                     person: name,
                     sandwich: wichs[name],
                 }));
-            });
+            }).value();
 
             $('#tableSandwichesCount tr').remove();
 
@@ -46,7 +46,7 @@
                     count: count[1],
                     sandwich: count[0],
                 }));
-            });
+            }).value();
 
         });
     }
