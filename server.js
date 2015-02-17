@@ -12,7 +12,7 @@ var INDEX = path.join(__dirname, 'public/index.html');
 var RESOURCES = _.map([
     './node_modules/bootstrap/dist/css/bootstrap.min.css',
     './node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
-    './node_modules/lodash/dist/lodash.min.js',
+    './build/lodash.min.js',
     './node_modules/bootstrap/dist/js/bootstrap.min.js',
     './node_modules/jquery/dist/jquery.min.js',
     './node_modules/typeahead.js/dist/typeahead.jquery.min.js',
