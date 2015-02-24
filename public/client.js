@@ -48,6 +48,8 @@
                 }));
             }).value();
 
+            $('#countDishes').text(_(wichs).size());
+
         });
     }
 
