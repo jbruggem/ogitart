@@ -30,19 +30,19 @@
             if( !_(wichs).keys().isEmpty() )
                 $('table').removeClass('empty');
 
-            $('#tableSandwichesList tr').remove();
+            $('#tablePeople tr').remove();
 
             _(wichs).keys().forEach(function(name){
-                $('#tableSandwichesList').append(tablePersonLine({
+                $('#tablePeople').append(tablePersonLine({
                     person: name,
                     sandwich: wichs[name],
                 }));
             }).value();
 
-            $('#tableSandwichesCount tr').remove();
+            $('#tableDishes tr').remove();
 
             _(wichs).values().countBy(ogitartUtils.comparer).pairs().forEach(function(count){
-                $('#tableSandwichesCount').append(tableCountLine({
+                $('#tableDishes').append(tableCountLine({
                     count: count[1],
                     sandwich: _(wichs).values().filter(function(v){ return count[0] === ogitartUtils.comparer(v); }).uniq().join(', '),
                 }));
