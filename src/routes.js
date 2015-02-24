@@ -38,19 +38,15 @@ function routeRessources(app){
 }
 
 function routeData(app, db){
-    var completion = {}; 
-
-    function updateCompletion(){
-        db.getUniqueValuesFromScratch(function(data){
-            completion = data;
-        });
-    }
 
     // do it at start up.
-    updateCompletion();
+    db.updateCompletionStore();
 
     app.get('/completion', function (req, res){
-        res.json(completion);
+        db.getCompletions(function(err, data){
+            if(err) return error(res, err);
+            res.json(data);
+        });
     });
 
     app.get('/data', function (req, res){
@@ -90,8 +86,7 @@ function routeData(app, db){
                 return res.json({ result: false, msg: 'Closed for today.'});
             }
 
-            completion.names = _.union(completion.names, utils.nth(choices, 0));
-            completion.dishes = _.union(completion.dishes, utils.nth(choices, 1));
+            db.updateCompletionsFromData({ name: utils.nth(choices, 0), dishes: utils.nth(choices, 1) });
 
             var newData = {};
             newData.choices = _.union(oldData.choices, choices);
@@ -101,8 +96,7 @@ function routeData(app, db){
 
             db.setTodaysData(newData, function(err){
                 if(err) return error(res, err);
-                res.json({ result: true }); 
-                updateCompletion();
+                res.json({ result: true });
             });
         });
     });

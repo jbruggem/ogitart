@@ -38,15 +38,15 @@ describe('utils', function(){
         });
     });
 
-    describe('normalizeUserNames', function(){
+    describe('getNormalizedUserNames', function(){
         it('should return a modified choices array', function(){
-            ['Abd', 'ZEF', 'Qrt'].should.eql(utils.normalizeUserNames([['ABd', 'bbb'], ['ZEF', 'dddd'], ['  qrt', 'ffff']]));
+            ['Abd', 'ZEF', 'Qrt'].should.eql(utils.getNormalizedUserNames([['ABd', 'bbb'], ['ZEF', 'dddd'], ['  qrt', 'ffff']]));
         });
     });
 
-    describe('normalizeDishNames', function(){
+    describe('getNormalizedDishNames', function(){
         it('should return a modified choices array', function(){
-            ['Abd', 'Zef', 'Qrt'].should.eql(utils.normalizeDishNames([['bbb', 'ABd'], ['dddd', 'ZEF'], ['ffff', '  qrt']]));
+            ['Abd', 'Zef', 'Qrt'].should.eql(utils.getNormalizedDishNames([['bbb', 'ABd'], ['dddd', 'ZEF'], ['ffff', '  qrt']]));
         });
     });
 

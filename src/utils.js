@@ -39,11 +39,11 @@ var utils = {
         return utils.capitalize(dish.replace(/\s+/g,' ').trim());
     },
 
-    normalizeUserNames: function(choices){
+    getNormalizedUserNames: function(choices){
         return _.map(utils.nth(choices, 0), utils.normalizeUserName);
     },
 
-    normalizeDishNames: function(choices){
+    getNormalizedDishNames: function(choices){
         return _.map(utils.nth(choices, 1), utils.normalizeDishName);
     },
 
@@ -54,6 +54,18 @@ var utils = {
                 utils.normalizeDishName(choice[1]),
             ];
         });
+    },
+
+    mergeArrays: function(a, b){
+        return _.uniq(_.union(a, b), utils.comparer );
+    },
+
+    mergeToNames: function(names, dayData){
+        return utils.mergeArrays(names, _.map(dayData, utils.normalizeUserName));
+    },
+
+    mergeToDishes: function(dishes, dayData){
+        return utils.mergeArrays(dishes, _.map(dayData, utils.normalizeDishName));
     },
 };
 
