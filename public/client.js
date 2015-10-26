@@ -6,7 +6,7 @@
     var TIMEOUT = 5000;
 
     var tablePersonLine = _.template('<tr> <td><%= person %></td> <td ><%= sandwich %></td>     </tr>');
-    var tableCountLine = _.template('<tr> <td><%= sandwich %></td> <td ><%= count %></td>     </tr>');
+    var tableCountLine = _.template('<tr> <td ><%= count %></td> <td><%= sandwich %></td> </tr>');
 
     function disableForms(){
         $('input:not([disabled="disabled"]), button:not([disabled="disabled"])').attr('disabled', 'disabled');
