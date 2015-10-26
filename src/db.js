@@ -2,6 +2,7 @@ var Store = require('jfs');
 var utils = require('./utils');
 var path = require('path');
 var _ = require('lodash');
+var mkdirp = require('mkdirp');
 
 module.exports = {
     Database: function Database(config){
@@ -16,15 +17,20 @@ module.exports = {
             var newDbId = calculateDbId();
             if(null === choicesStore || choicesDbId !== newDbId){
                 choicesDbId = newDbId;
-                choicesStore = new Store(path.join(config.dataFolder, ''+choicesDbId));
+                var dbDir = path.join(config.dataFolder, ''+choicesDbId);
+                mkdirp.sync(dbDir);
+
+                choicesStore = new Store(dbDir);
             }
-            //console.log(choicesStore);
             return choicesStore;
         }
 
         function getCompletionStore(){
-            if( null == completionStore )
-                completionStore = new Store(path.join(config.dataFolder, 'completions'));
+            if( null === completionStore ){
+                var dbDir = path.join(config.dataFolder, 'completions');
+                mkdirp.sync(dbDir);
+                completionStore = new Store(dbDir);
+            }
             return completionStore;
         }
 

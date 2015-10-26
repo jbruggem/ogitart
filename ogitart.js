@@ -1,1 +1,1 @@
-require('./src/main').main();
+require('./src/main').prepareAndRun();
