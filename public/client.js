@@ -8,11 +8,11 @@
     var tablePersonLine = _.template('<tr> <td><%= person %></td> <td ><%= sandwich %></td>     </tr>');
     var tableCountLine = _.template('<tr> <td><%= sandwich %></td> <td ><%= count %></td>     </tr>');
 
-    function disableForms(){ 
-        $('input:not([disabled="disabled"]), button:not([disabled="disabled"])').attr('disabled', 'disabled'); 
+    function disableForms(){
+        $('input:not([disabled="disabled"]), button:not([disabled="disabled"])').attr('disabled', 'disabled');
         $('#close-for-today').text("Closed");
     }
-    function enableForms(){ 
+    function enableForms(){
         $('input[disabled="disabled"], button[disabled="disabled"]').attr('disabled', false);
         $('#close-for-today').text("Close for today");
     }
@@ -78,7 +78,7 @@
         return ogitartUtils.comparer(name); //.toLowerCase().replace(/[^a-z]/g, '');
     }
 
-    function activateAutocomplete(){ 
+    function activateAutocomplete(){
         $.getJSON(URL_COMPLETION, function(data){
 
             function query(list){ return function(q, cb){
