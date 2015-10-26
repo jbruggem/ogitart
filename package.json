@@ -5,12 +5,13 @@
   "main": "server.js",
   "repository": "https://github.com/jbruggem/ogitart.git",
   "scripts": {
-    "test": "mocha",
+    "test": "npm run lint && mocha",
     "build": "sh build.sh",
     "mon": "nodemon ogitart.js",
     "lint": "jshint src/",
     "start": "forever -m5 start ./ogitart.js",
-    "restart": "forever restart ./ogitart.js"
+    "restart": "forever restart ./ogitart.js",
+    "stop": "forever stop ./ogitart.js"
   },
   "author": "Jehan Bruggeman <jbruggem@symzo.be>",
   "license": "Apache-2.0",

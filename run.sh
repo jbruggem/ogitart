@@ -1,3 +1,3 @@
 #!/bin/bash
-npm run-script build
-npm run-script start
+npm run build
+npm run start
