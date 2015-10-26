@@ -14,17 +14,16 @@ var utils = {
         return _.map(list, function(e){ return e[index]; });
     },
 
-    capitalize: function(s){ 
+    capitalize: function(s){
         return _.map(s.toLowerCase().split(' '), function(w){
             if(w.length < 2 ) return w;
             return _.capitalize(w);
-        }).join(' '); 
+        }).join(' ');
     },
 
-    comparer: function(s){ 
-        var s = removeDiacritics(s.toLowerCase()).replace(/[-:;,./+='"|&!%{})(_~'$]/g, '').replace(/\s+/g,' ').trim();
-        return s;
-    }, 
+    comparer: function(s){
+        return removeDiacritics(s.toLowerCase()).replace(/[-:;,./+='"|&!%{})(_~'$]/g, '').replace(/\s+/g,' ').trim();
+    },
 
     normalizeUserName: function(name){
         var doCapitalize = false;

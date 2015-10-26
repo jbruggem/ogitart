@@ -14,7 +14,7 @@ var RESOURCES = _.map([
     './node_modules/jquery/dist/jquery.min.js',
     './node_modules/typeahead.js/dist/typeahead.jquery.min.js',
     './public/client.js',
-], _.compose(_.partial(path.join, __dirname, '../'), _.identity)); 
+], _.compose(_.partial(path.join, __dirname, '../'), _.identity));
 
 
 
@@ -34,7 +34,7 @@ function routeRessources(app){
         app.get('/'+path.basename(ressourcePath), function (req, res) {
           res.sendFile(ressourcePath, {}, sendFileError(res));
         });
-    });  
+    });
 }
 
 function routeData(app, db){
@@ -52,8 +52,7 @@ function routeData(app, db){
     app.get('/data', function (req, res){
         db.getTodaysData(function(err, data){
             if(err) return error(res, err);
-
-            res.json(data); 
+            res.json(data);
         });
     });
 
@@ -70,12 +69,12 @@ function routeData(app, db){
 
             db.setTodaysData(data, function(err){
                 if(err) return error(res, err);
-                res.json({ result: true }); 
+                res.json({ result: true });
             });
         });
     });
 
-    app.post('/data', function (req, res){ 
+    app.post('/data', function (req, res){
         db.getTodaysData(function(err, oldData){
             if(err) return error(res, err);
             var choices = req.body.choices;

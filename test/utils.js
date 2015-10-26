@@ -1,6 +1,6 @@
 var should = require("should");
 
-describe('utils', function(){
+describe('Utility functions', function(){
     var utils = require('../src/utils');
     describe('nth', function(){
         it('should return the nth elements of the list of lists', function(){

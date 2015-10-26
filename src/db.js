@@ -3,23 +3,15 @@ var utils = require('./utils');
 var path = require('path');
 var _ = require('lodash');
 
-
-function mergeArrays(a, b){
-    _.uniq(_.union(a, b), utils.comparer );
-}
-
-function mergeNames(existing, notNormalized){
-    _.uniq(_.union(existing, utils.normalizeUserNames()), utils.comparer );
-}
-
 module.exports = {
     Database: function Database(config){
         var choicesDbId = null;
         var choicesStore = null;
         var completionStore = null;
 
+
         function calculateDbId(){ return new Date().getFullYear(); }
-        
+
         function getChoicesStore(){
             var newDbId = calculateDbId();
             if(null === choicesStore || choicesDbId !== newDbId){
