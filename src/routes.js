@@ -14,7 +14,7 @@ var RESOURCES = _.map([
     './node_modules/jquery/dist/jquery.min.js',
     './node_modules/typeahead.js/dist/typeahead.jquery.min.js',
     './public/client.js',
-], _.compose(_.partial(path.join, __dirname, '../'), _.identity));
+], _.flowRight(_.partial(path.join, __dirname, '../'), _.identity));
 
 
 

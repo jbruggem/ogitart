@@ -43,7 +43,7 @@ module.exports = {
                 _(days).keys().forEach(function(day){
                     names = _.union(names, utils.getNormalizedUserNames(days[day].choices));
                     dishes =  _.union(dishes, utils.getNormalizedDishNames(days[day].choices));
-                }).value();
+                });
                 cb({ names: names, dishes: dishes });
             });
 
