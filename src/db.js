@@ -51,10 +51,7 @@ module.exports = {
 
         function updateCompletionsFromData(data, cb){
             getCompletionStore().all(function(err, completion){
-                if( !_.has(completion, 'names') )
-                    completion.names = [];
-                if( !_.has(completion, 'dishes') )
-                    completion.dishes = [];
+                ensureCompletionHasKeys(completion);
 
                 completion.names =  utils.mergeToNames(completion.names, data.names);
                 completion.dishes =  utils.mergeToDishes(completion.dishes, data.dishes);
@@ -70,6 +67,7 @@ module.exports = {
             getCompletions: function(cb){
                 getCompletionStore().all(function(err, completions){
                     if(err) console.error(err);
+                    ensureCompletionHasKeys(completions);
                     cb(err, completions);
                 });
             },
@@ -103,3 +101,10 @@ module.exports = {
         };
     },
 };
+
+function ensureCompletionHasKeys(completion){
+    if( !_.has(completion, 'names') )
+        completion.names = [];
+    if( !_.has(completion, 'dishes') )
+        completion.dishes = [];
+}
