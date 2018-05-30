@@ -9,15 +9,17 @@
     "build": "sh build.sh",
     "mon": "nodemon ogitart.js",
     "lint": "jshint src/",
-    "start": "forever -m5 start ./ogitart.js",
-    "restart": "forever restart ./ogitart.js",
-    "stop": "forever stop ./ogitart.js"
+    "start": "NODE_ENV=production forever -m5 start ./ogitart.js",
+    "restart": "NODE_ENV=production forever restart ./ogitart.js",
+    "stop": "forever stop ./ogitart.js",
+    "logs": "forever logs"
   },
   "author": "Jehan Bruggeman <jbruggem@symzo.be>",
   "license": "Apache-2.0",
   "dependencies": {
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.1",
+    "cors": "^2.8.4",
     "diacritics": "^1.2.1",
     "express": "^4.16.3",
     "jfs": "^0.3.0",
