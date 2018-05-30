@@ -79,6 +79,12 @@ function routeData(app, db){
             if(err) return error(res, err);
             var choices = req.body.choices;
             console.log("Received:", choices);
+            if(!choices) {
+              res.status(401);
+              console.error("Invalid data.");
+              res.send();
+              return;
+            }
 
             if(oldData.closed){
                 console.log("Not saving. Closed for today.");
