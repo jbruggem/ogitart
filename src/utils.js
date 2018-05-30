@@ -56,7 +56,7 @@ var utils = {
     },
 
     mergeArrays: function(a, b){
-        return _.uniq(_.union(a, b), utils.comparer );
+        return _.uniqBy(_.union(a, b), utils.comparer );
     },
 
     mergeToNames: function(names, dayData){

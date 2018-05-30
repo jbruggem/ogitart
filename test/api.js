@@ -1,22 +1,41 @@
-var _ = require("lodash");
-var should = require("should");
-var supertest = require('supertest');
-var appMain = require('../src/main');
-var config = require('../src/config');
-var path = require('path');
-var mkdirp = require('mkdirp');
-var rmdir = require('rimraf');
+const _ = require("lodash");
+const should = require("should");
+const supertest = require('supertest');
+const appMain = require('../src/main');
+const config = require('../src/config');
+const path = require('path');
+const mkdirp = require('mkdirp');
+const rmdir = require('rimraf');
 
 
 // var someDayData = {"choices":[["JBR","Pain Talon"],["ADE","Pain Burger"],["FDW","Sala Capella"],["EDL","Pain Burger"]]};
 
-var emptyCompletion = { "dishes": [], "names": [] };
-var emptyData = { "choices": [] };
-var okResult = { result: true };
-var addChoice1 = {"choices":[["JBR","Pain Talon"]]};
-var addCompletion1 = {"dishes":["Pain Talon"]};
-var addChoice2 = {"choices":[["ADE","Pain Burger"]]};
-var addCompletion2 = {"dishes":["Pain Burger"]};
+const emptyCompletion = { "dishes": [], "names": [] };
+const emptyData = { "choices": [] };
+const okResult = { result: true };
+const choice1 = ["JBR", "Pain Talon"];
+const choice2 = ["ADE", "Pain Burger"];
+const choice3 = ["ADE", "Pain Pon"];
+const data1 = {"choices": [choice1].sort()};
+const data2 = {"choices": [choice1, choice2].sort()};
+const data3 = {"choices": [choice1, choice3].sort()};
+
+const completion1 = {
+    "dishes": [choice1[1]],
+    "names": [choice1[0]]
+};
+const completion2 = {
+    "dishes": [choice1[1], choice2[1]],
+    "names": [choice1[0], choice2[0]]
+};
+const completion3 = {
+    "dishes": [choice1[1], choice2[1], choice3[1]],
+    "names": [choice1[0], choice2[0]]
+};
+
+function dataWith(choice) {
+    return {"choices": [choice]};
+}
 
 
 describe('The API', function(){
@@ -60,28 +79,40 @@ describe('The API', function(){
     });
 
     describe('PUSH /data: add first choice', function(){
-        addSandwich(getApi, addChoice1);
+        addSandwich(getApi, dataWith(choice1));
     });
 
     describe('GET /data sandwich 1', function(){
-        expectSandwichs(getApi, mergeChoices(addChoice1));
+        expectSandwichs(getApi, data1);
     });
 
     describe('GET /completion', function(){
-        expectCompletion(getApi,  mergeCompletion(addCompletion1));
+        expectCompletion(getApi,  completion1);
     });
 
     describe('PUSH /data: add second choice', function(){
-        addSandwich(getApi, addChoice2);
+        addSandwich(getApi, dataWith(choice2));
     });
 
     describe('GET /data sandwich 2', function(){
-        expectSandwichs(getApi, mergeChoices(addChoice1, addChoice2));
+        expectSandwichs(getApi, data2);
     });
 
-        describe('GET /completion', function(){
-            expectCompletion(getApi,  mergeCompletion(addCompletion1, addCompletion2));
-        });
+    describe('GET /completion', function(){
+        expectCompletion(getApi,  completion2);
+    });
+
+    describe('PUSH /data: add third choice', function(){
+        addSandwich(getApi, dataWith(choice3));
+    });
+
+    describe('GET /data sandwich 3', function(){
+        expectSandwichs(getApi, data3);
+    });
+
+    describe('GET /completion', function(){
+        expectCompletion(getApi,  completion3);
+    });
 
 });
 
@@ -119,23 +150,3 @@ function expectCompletion(getApi, expect){
     });
 }
 
-function mergeChoices(){
-    var init = _.clone(emptyData);
-    _.forEach(arguments, function(data){
-        if(data.choices)
-            init.choices = init.choices.concat(data.choices);
-    });
-    init.choices.sort();
-    return init;
-}
-
-function mergeCompletion(){
-    var init = _.clone(emptyCompletion);
-    _.forEach(arguments, function(data){
-        if(data.dishes)
-            init.dishes = init.dishes.concat(data.dishes);
-        if(data.names)
-            init.names = init.names.concat(data.names);
-    });
-    return init;
-}

@@ -85,11 +85,15 @@ function routeData(app, db){
                 return res.json({ result: false, msg: 'Closed for today.'});
             }
 
-            db.updateCompletionsFromData({ name: utils.nth(choices, 0), dishes: utils.nth(choices, 1) });
+            db.updateCompletionsFromData({ names: utils.nth(choices, 0), dishes: utils.nth(choices, 1) });
 
             var newData = {};
             newData.choices = _.union(oldData.choices, choices);
-            newData.choices = _(newData.choices).reverse().uniq(function(w){ return utils.comparer(w[0]); }).value();
+            newData.choices = _(newData.choices)
+                .reverse()
+                .uniqBy(function(w){ return utils.comparer(w[0]); })
+                .sort()
+                .value();
 
             console.log("current todayData", newData);
 

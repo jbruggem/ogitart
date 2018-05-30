@@ -55,4 +55,19 @@ describe('Utility functions', function(){
             [[ 'Bbb', 'Abd'], ['Dddd', 'Zef'], ['Ffff', 'Qrt']].should.eql(utils.normalizeChoices([['bbb', 'ABd'], ['dddd', 'ZEF'], ['ffff', '  qrt']]));
         });
     });
+
+    describe('mergeToNames', function(){
+        it('should return a merged name array', function(){
+            ["JBR"].should.eql(utils.mergeToNames([], ["JBR"]));
+            ["JBR", "jehan"].should.eql(utils.mergeToNames(["JBR", "jehan"], ["JBR", "JEhan"]));
+        });
+    });
+
+    describe('mergeToDishes', function(){
+        it('should return a merged name array', function(){
+            ["Pain Talon"].should.eql(utils.mergeToDishes([], ["Pain Talon"]));
+            ["Pain Talon"].should.eql(utils.mergeToDishes([], ["Pain Talon", "pain talon"]));
+            ["Pain Talon"].should.eql(utils.mergeToDishes([], ["Pain Talon", "pain talon", "Pain' Talon."]));
+        });
+    });
 });

@@ -86,7 +86,6 @@
                 cb(_(list)
                     .filter(function(elem){
                         return _.contains(cleanName(elem), cleanQ); })
-                    .map(function(e){ return {value: e}; })
                     .valueOf());
             }}
 
