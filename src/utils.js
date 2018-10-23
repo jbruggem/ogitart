@@ -21,8 +21,8 @@ var utils = {
         }).join(' ');
     },
 
-    comparer: function(s){
-        return removeDiacritics(s.toLowerCase()).replace(/[-:;,./+='"|&!%{})(_~'$]/g, '').replace(/\s+/g,' ').trim();
+    comparer: function(text){
+        return removeDiacritics(text.toLowerCase()).replace(/[-:;,./+='"|&!%{})(_~'$]/g, '').replace(/\s+/g,' ').trim();
     },
 
     normalizeUserName: function(name){

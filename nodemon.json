@@ -1,3 +1,6 @@
 {
-  "watch": ["src", "test"]
+  "watch": ["src", "test", "public"],
+  "events": {
+    "restart": "./build.sh"
+  }
 }

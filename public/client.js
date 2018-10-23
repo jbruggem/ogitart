@@ -17,9 +17,10 @@
         $('#close-for-today').text("Close for today");
     }
 
+
     function updateUi(){
-        $.getJSON(URL_DATA, function( data ){
-            var wichs = _.zipObject(data.choices);
+        $.getJSON(URL_DATA, function(data){
+            var wichs = _.fromPairs(data.choices);
 
             if(data.closed){
                 disableForms();
@@ -37,16 +38,16 @@
                     person: name,
                     sandwich: wichs[name],
                 }));
-            }).value();
+            });
 
             $('#tableDishes tr').remove();
 
-            _(wichs).values().countBy(ogitartUtils.comparer).pairs().forEach(function(count){
+            _(wichs).values().countBy(ogitartUtils.comparer).toPairs().forEach(function(count){
                 $('#tableDishes').append(tableCountLine({
                     count: count[1],
                     sandwich: _(wichs).values().filter(function(v){ return count[0] === ogitartUtils.comparer(v); }).uniq().join(', '),
                 }));
-            }).value();
+            });
 
             $('#countDishes').text(_(wichs).size());
 
@@ -85,7 +86,7 @@
                 var cleanQ = cleanName(q);
                 cb(_(list)
                     .filter(function(elem){
-                        return _.contains(cleanName(elem), cleanQ); })
+                        return _.includes(cleanName(elem), cleanQ); })
                     .valueOf());
             }}
 
