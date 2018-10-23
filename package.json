@@ -18,7 +18,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^4.1.2",
     "cors": "^2.8.4",
     "diacritics": "^1.2.1",
     "express": "^4.16.3",
