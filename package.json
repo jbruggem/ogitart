@@ -6,7 +6,7 @@
   "repository": "https://github.com/jbruggem/ogitart.git",
   "scripts": {
     "test": "npm run lint && mocha",
-    "build": "npm install && sh build.sh",
+    "build": "npm install --only=production && sh build.sh",
     "mon": "nodemon ogitart.js",
     "lint": "jshint src/",
     "start": "NODE_ENV=production forever -m5 start ./ogitart.js",
@@ -26,11 +26,11 @@
     "jquery": "^3.0.0",
     "lodash": "^4.17.10",
     "mkdirp": "^0.5.1",
-    "typeahead.js": "^0.11.1"
+    "typeahead.js": "^0.11.1",
+    "browserify": "^16.2.2",
+    "forever": "^0.15.3"
   },
   "devDependencies": {
-    "browserify": "^16.2.2",
-    "forever": "^0.15.3",
     "jshint": "^2.9.6",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
