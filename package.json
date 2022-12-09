@@ -22,7 +22,7 @@
     "browserify": "^16.2.3",
     "cors": "^2.8.5",
     "diacritics": "^1.2.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "forever": "^0.15.3",
     "jfs": "^0.3.0",
     "jquery": "^3.5.0",
